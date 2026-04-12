@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.Br0ski777/wallet-portfolio",
+  "title": "Wallet Portfolio Tracker API",
+  "description": "Crypto wallet balances, ERC-20 tokens, USD values across Base and Ethereum. x402.",
+  "version": "1.0.0",
+  "websiteUrl": "https://github.com/Br0ski777/wallet-portfolio-x402",
+  "repository": {
+    "url": "https://github.com/Br0ski777/wallet-portfolio-x402",
+    "source": "github"
+  },
+  "remotes": [
+    {
+      "type": "sse",
+      "url": "https://wallet-portfolio-x402-production.up.railway.app/mcp"
+    }
+  ]
+}
