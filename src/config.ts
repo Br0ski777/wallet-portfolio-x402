@@ -36,6 +36,56 @@ Do NOT use for gas prices -- use gas_get_current_price instead. Do NOT use for s
         },
         required: ["address"],
       },
+      outputSchema: {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string",
+              "description": "Wallet address"
+            },
+            "chain": {
+              "type": "string",
+              "description": "Blockchain"
+            },
+            "nativeBalance": {
+              "type": "object",
+              "properties": {
+                "symbol": {
+                  "type": "string"
+                },
+                "balance": {
+                  "type": "string"
+                },
+                "priceUsd": {
+                  "type": "number"
+                },
+                "valueUsd": {
+                  "type": "number"
+                }
+              }
+            },
+            "tokens": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "totalPortfolioUsd": {
+              "type": "number"
+            },
+            "tokenCount": {
+              "type": "number"
+            },
+            "timestamp": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "address",
+            "chain",
+            "totalPortfolioUsd"
+          ]
+        },
     },
     {
       method: "GET",
@@ -66,6 +116,36 @@ Do NOT use for full portfolio with all tokens -- use wallet_get_portfolio instea
         },
         required: ["address"],
       },
+      outputSchema: {
+          "type": "object",
+          "properties": {
+            "address": {
+              "type": "string"
+            },
+            "chain": {
+              "type": "string"
+            },
+            "eth": {
+              "type": "object",
+              "properties": {
+                "balance": {
+                  "type": "string"
+                },
+                "priceUsd": {
+                  "type": "number"
+                },
+                "valueUsd": {
+                  "type": "number"
+                }
+              }
+            }
+          },
+          "required": [
+            "address",
+            "chain",
+            "eth"
+          ]
+        },
     },
   ],
 };
