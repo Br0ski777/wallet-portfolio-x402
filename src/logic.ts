@@ -1,5 +1,20 @@
 import type { Hono } from "hono";
 
+
+// ATXP: requirePayment only fires inside an ATXP context (set by atxpHono middleware).
+// For raw x402 requests, the existing @x402/hono middleware handles the gate.
+// If neither protocol is active (ATXP_CONNECTION unset), tryRequirePayment is a no-op.
+async function tryRequirePayment(price: number): Promise<void> {
+  if (!process.env.ATXP_CONNECTION) return;
+  try {
+    const { requirePayment } = await import("@atxp/server");
+    const BigNumber = (await import("bignumber.js")).default;
+    await requirePayment({ price: BigNumber(price) });
+  } catch (e: any) {
+    if (e?.code === -30402) throw e;
+  }
+}
+
 // --- RPC Config ---
 const RPC_URLS: Record<string, string> = {
   base: "https://mainnet.base.org",
@@ -136,6 +151,7 @@ function isValidAddress(addr: string): boolean {
 export function registerRoutes(app: Hono) {
   // Full portfolio
   app.get("/api/portfolio", async (c) => {
+    await tryRequirePayment(0.003);
     const address = c.req.query("address");
     const chain = (c.req.query("chain") || "base").toLowerCase();
 
@@ -206,6 +222,7 @@ export function registerRoutes(app: Hono) {
 
   // Quick balance (ETH + USDC only)
   app.get("/api/balance", async (c) => {
+    await tryRequirePayment(0.001);
     const address = c.req.query("address");
     const chain = (c.req.query("chain") || "base").toLowerCase();
 
