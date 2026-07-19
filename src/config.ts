@@ -9,7 +9,7 @@ export const API_CONFIG: ApiConfig = {
     {
       method: "GET",
       path: "/api/portfolio",
-      price: "$0.003",
+      price: "$0.008",
       description: "Get full portfolio with all token balances and USD values",
       toolName: "wallet_get_portfolio",
       toolDescription: `Use this when you need to check a crypto wallet's holdings across chains. Returns a full portfolio breakdown in JSON.
@@ -90,7 +90,7 @@ Do NOT use for gas prices -- use gas_get_current_price instead. Do NOT use for s
     {
       method: "POST",
       path: "/api/portfolio",
-      price: "$0.003",
+      price: "$0.008",
       description: "Get full portfolio with all token balances and USD values (POST variant)",
       toolName: "wallet_get_portfolio",
       toolDescription: `Use this when you need to check a crypto wallet's holdings across chains. Returns a full portfolio breakdown in JSON.
@@ -171,7 +171,7 @@ Do NOT use for gas prices -- use gas_get_current_price instead. Do NOT use for s
     {
       method: "GET",
       path: "/api/balance",
-      price: "$0.001",
+      price: "$0.003",
       description: "Get ETH and USDC balance only",
       toolName: "wallet_get_balance",
       toolDescription: `Use this when you need a quick check of a wallet's ETH and USDC balance only. Returns a lightweight JSON response -- cheaper than full portfolio.
@@ -231,7 +231,7 @@ Do NOT use for full portfolio with all tokens -- use wallet_get_portfolio instea
     {
       method: "POST",
       path: "/api/balance",
-      price: "$0.001",
+      price: "$0.003",
       description: "Get ETH and USDC balance only (POST variant)",
       toolName: "wallet_get_balance",
       toolDescription: `Use this when you need a quick check of a wallet's ETH and USDC balance only. Returns a lightweight JSON response -- cheaper than full portfolio.
