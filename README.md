@@ -35,8 +35,38 @@ Any x402-aware client ([`@x402/fetch`](https://www.npmjs.com/package/@x402/fetch
 
 | Tool | Method | Path | Price | Description |
 |---|---|---|---|---|
-| `wallet_get_portfolio` | GET | `/api/portfolio` | $0.003 | Get full portfolio with all token balances and USD values |
-| `wallet_get_balance` | GET | `/api/balance` | $0.001 | Get ETH and USDC balance only |
+| `wallet_get_portfolio` | GET | `/api/portfolio` | $0.008 | Get full portfolio with all token balances and USD values |
+| `wallet_get_portfolio` | POST | `/api/portfolio` | $0.008 | Get full portfolio with all token balances and USD values (POST variant) |
+| `wallet_get_balance` | GET | `/api/balance` | $0.003 | Get ETH and USDC balance only |
+| `wallet_get_balance` | POST | `/api/balance` | $0.003 | Get ETH and USDC balance only (POST variant) |
+
+### `wallet_get_portfolio`
+
+Use this when you need to check a crypto wallet's holdings across chains. Returns a full portfolio breakdown in JSON.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `address` | string | yes | Wallet address (0x...) |
+| `chain` | string | no | Blockchain network (default: base) |
+
+**Returns**
+
+- `nativeBalance` -- ETH balance with USD value
+- `tokens` -- array of ERC-20 tokens with symbol, balance, USD value, contract address
+- `totalValueUsd` -- aggregate portfolio value in USD
+- `chain` -- which network was queried
+
+Example response:
+
+```json
+{"nativeBalance":{"symbol":"ETH","balance":"1.234","valueUsd":3827.50},"tokens":[{"symbol":"USDC","balance":"500.00","valueUsd":500.00}],"totalValueUsd":4327.50,"chain":"base"}
+```
+
+**When to use**: executing a swap to verify the wallet has sufficient balance. Essential for portfolio tracking, balance checks, and agent self-reporting.
+
+**Not for**: gas prices (use `gas_get_current_price`), swap quotes (use `dex_get_swap_quote`), yield opportunities (use `defi_find_best_yields`).
 
 ### `wallet_get_portfolio`
 
@@ -93,8 +123,36 @@ Example response:
 
 **Not for**: full portfolio with all tokens (use `wallet_get_portfolio`), gas prices (use `gas_get_current_price`).
 
+### `wallet_get_balance`
+
+Use this when you need a quick check of a wallet's ETH and USDC balance only. Returns a lightweight JSON response -- cheaper than full portfolio.
+
+**Parameters**
+
+| Name | Type | Required | Description |
+|---|---|---|---|
+| `address` | string | yes | Wallet address (0x...) |
+| `chain` | string | no | Blockchain network (default: base) |
+
+**Returns**
+
+- `ethBalance` -- native ETH balance with USD value
+- `usdcBalance` -- USDC balance with USD value
+- `chain` -- which network was queried
+
+Example response:
+
+```json
+{"ethBalance":{"balance":"2.5","valueUsd":7750.00},"usdcBalance":{"balance":"1000.00","valueUsd":1000.00},"chain":"base"}
+```
+
+**When to use**: quick pre-trade balance verification when you only care about ETH and USDC. Faster and cheaper than wallet_get_portfolio.
+
+**Not for**: full portfolio with all tokens (use `wallet_get_portfolio`), gas prices (use `gas_get_current_price`).
+
 ## Example agent prompts
 
+- "Check a crypto wallet's holdings across chains"
 - "Check a crypto wallet's holdings across chains"
 - "A quick check of a wallet's ETH and USDC balance only"
 
